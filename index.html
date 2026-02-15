@@ -768,38 +768,39 @@
         document.documentElement.style.setProperty('--move-y', y + 'deg');
       });
 
+      // ИСПРАВЛЕНО: убраны ведущие слеши, чтобы пути были относительными
       const trackList = [
-        { name: "17 (2023 Daniil Dr)", artist: "Kopynus & s€x(br0nx)", img: "/img/17.png", audio: "audio/17.mp3" },
+        { name: "17 (2023 Daniil Dr)", artist: "Kopynus & s€x(br0nx)", img: "img/17.png", audio: "audio/17.mp3" },
         { name: "2021 Daniil Dr", artist: "Kopynus", img: "", audio: "audio/2021.mp3" },
-        { name: "2022 Daniil Dr", artist: "Kopynus", img: "/img/2022dr.png", audio: "audio/2022dr.mp3" },
-        { name: "Babytron", artist: "Kopynus", img: "/img/nonsensedeluxe.jpeg", audio: "audio/babytron.wav" },
-        { name: "Beszbashen1u", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/besz.mp3" },
+        { name: "2022 Daniil Dr", artist: "Kopynus", img: "img/2022dr.png", audio: "audio/2022dr.mp3" },
+        { name: "Babytron", artist: "Kopynus", img: "img/nonsensedeluxe.jpeg", audio: "audio/babytron.wav" },
+        { name: "Beszbashen1u", artist: "Beszbashen1u(Kopynus)", img: "img/raritet.png", audio: "audio/besz.mp3" },
         { name: "Cel Harosh", artist: "Kopynus", img: "", audio: "audio/celharosh.mp3" },
-        { name: "Check", artist: "Kopynus", img: "/img/check.png", audio: "audio/check.wav" },
+        { name: "Check", artist: "Kopynus", img: "img/check.png", audio: "audio/check.wav" },
         { name: "Cost", artist: "Kopynus", img: "", audio: "audio/cost.wav" },
         { name: "CTOOOEEEEEE", artist: "KatyaMak & Natalka", img: "", audio: "audio/cto.mp3" },
-        { name: "Desicion", artist: "s€x(br0nx)", img: "/img/desicion.png", audio: "audio/desicion.wav" },
-        { name: "Fog", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsensedeluxe.jpeg", audio: "audio/fog.wav" },
-        { name: "Glide", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsensedeluxe.jpeg", audio: "audio/glide.wav" },
-        { name: "I Got It", artist: "s€x(br0nx)", img: "/img/nonsensedeluxe.jpeg", audio: "audio/igotit.wav" },
-        { name: "Izi Rap", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/izirep.mp3" },
-        { name: "Kruk", artist: "Beszbashen1u(Kopynus)", img: "/img/kruk.jpeg", audio: "audio/kruk.mp3" },
-        { name: "My Way", artist: "s€x(br0nx)", img: "/img/myway.png", audio: "audio/myway.wav" },
+        { name: "Desicion", artist: "s€x(br0nx)", img: "img/desicion.png", audio: "audio/desicion.wav" },
+        { name: "Fog", artist: "Kopynus & s€x(br0nx)", img: "img/nonsensedeluxe.jpeg", audio: "audio/fog.wav" },
+        { name: "Glide", artist: "Kopynus & s€x(br0nx)", img: "img/nonsensedeluxe.jpeg", audio: "audio/glide.wav" },
+        { name: "I Got It", artist: "s€x(br0nx)", img: "img/nonsensedeluxe.jpeg", audio: "audio/igotit.wav" },
+        { name: "Izi Rap", artist: "Beszbashen1u(Kopynus)", img: "img/raritet.png", audio: "audio/izirep.mp3" },
+        { name: "Kruk", artist: "Beszbashen1u(Kopynus)", img: "img/kruk.jpeg", audio: "audio/kruk.mp3" },
+        { name: "My Way", artist: "s€x(br0nx)", img: "img/myway.png", audio: "audio/myway.wav" },
         { name: "Lean", artist: "Kopynus", img: "", audio: "audio/lean.wav" },
-        { name: "Never Get Enough", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/nevergetenough.wav" },
-        { name: "Never Lost", artist: "s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/neverlost.wav" },
-        { name: "Nonsense", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/nonsense.wav" },
+        { name: "Never Get Enough", artist: "Kopynus & s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/nevergetenough.wav" },
+        { name: "Never Lost", artist: "s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/neverlost.wav" },
+        { name: "Nonsense", artist: "Kopynus & s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/nonsense.wav" },
         { name: "No Sleep", artist: "Kopynus", img: "", audio: "audio/nosleep.wav" },
-        { name: "Nothing To Risk", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsensedeluxe.jpeg", audio: "audio/nothingtorisk.wav" },
-        { name: "Perfect Scene", artist: "Kopynus", img: "/img/nonsense.jpeg", audio: "audio/perfectscene.wav" },
-        { name: "Raritet V1", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/raritet1.mp3" },
-        { name: "Raritet V2", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/raritet2.wav" },
-        { name: "Raritet V3", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/raritet3.wav" },
-        { name: "R.I.P Federiko (Astrofest Tragedy)", artist: "Kopynus", img: "/img/federiko.png", audio: "audio/federiko.mp3" },
-        { name: "She Like Me", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/shelikeme.wav" },
-        { name: "The End", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/theend.wav" },
+        { name: "Nothing To Risk", artist: "Kopynus & s€x(br0nx)", img: "img/nonsensedeluxe.jpeg", audio: "audio/nothingtorisk.wav" },
+        { name: "Perfect Scene", artist: "Kopynus", img: "img/nonsense.jpeg", audio: "audio/perfectscene.wav" },
+        { name: "Raritet V1", artist: "Beszbashen1u(Kopynus)", img: "img/raritet.png", audio: "audio/raritet1.mp3" },
+        { name: "Raritet V2", artist: "Beszbashen1u(Kopynus)", img: "img/raritet.png", audio: "audio/raritet2.wav" },
+        { name: "Raritet V3", artist: "Beszbashen1u(Kopynus)", img: "img/raritet.png", audio: "audio/raritet3.wav" },
+        { name: "R.I.P Federiko (Astrofest Tragedy)", artist: "Kopynus", img: "img/federiko.png", audio: "audio/federiko.mp3" },
+        { name: "She Like Me", artist: "Kopynus & s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/shelikeme.wav" },
+        { name: "The End", artist: "Kopynus & s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/theend.wav" },
         { name: "Trap (New Year 2022)", artist: "Kopynus", img: "", audio: "audio/trap.mp3" },
-        { name: "Trust", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/trust.wav" },
+        { name: "Trust", artist: "Kopynus & s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/trust.wav" },
       ];
 
       let currentlyPlaying = null;
@@ -1069,7 +1070,7 @@
         }
       }
 
-      // ========== УЛУЧШЕННОЕ СОХРАНЕНИЕ ИЗОБРАЖЕНИЯ ==========
+      // УЛУЧШЕННОЕ СОХРАНЕНИЕ ИЗОБРАЖЕНИЯ
       const saveImageBtn = document.getElementById('saveImageBtn');
       if (saveImageBtn) {
         saveImageBtn.addEventListener('click', () => {
