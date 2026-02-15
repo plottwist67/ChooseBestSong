@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Kopynus · music rank</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --index: calc(1vw + 1vh);
+      --transition: 1.2s cubic-bezier(0.05, 0.5, 0, 1);
+      --tier-s: #1e4fd0;
+      --tier-a: #b91c1c;
+      --tier-b: #eab308;
+      --tier-c: #ea580c;
+      --tier-d: #16a34a;
+      --tier-dk: #6b7280;
+      --glass-dark: rgba(8, 12, 18, 0.8);
+      --border-light: rgba(255, 255, 255, 0.15);
+    }
+
+    @font-face {
+      font-family: 'Kamerik 3D';
+      src: url(../fonts/kamerik205-heavy.woff2) format('woff2');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Quicksand';
+      src: url(../fonts/Quicksand-VariableFont_wght.ttf) format('truetype');
+      font-weight: 300 700;
+      font-display: swap;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: #03050a;
+      color: #fff;
+      font-family: 'Kamerik 3D', 'Impact', sans-serif;
+      line-height: 1.4;
+    }
+
+    .layers {
+      perspective: 1450px;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .layers__container {
+      height: 100vh;
+      min-height: 600px;
+      transform-style: preserve-3d;
+      transform: rotateX(var(--move-y, 0deg)) rotateY(var(--move-x, 0deg));
+      will-change: transform;
+      transition: transform var(--transition);
+    }
+
+    .layers__item {
+      position: absolute;
+      inset: -5vw;
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+    }
+
+    .layer-1 { transform: translateZ(-55px) scale(1.06); mask-image: linear-gradient(#fff, transparent); }
+    .layer-2 { transform: translateZ(80px) scale(0.88); mask-image: linear-gradient(#fff, transparent); }
+    .layer-5 { transform: translateZ(100px) scale(0.9); mask-image: linear-gradient(#fff, transparent); }
+    .layer-6 { transform: translateZ(140px); mask-image: linear-gradient(#fff, transparent); }
+
+    .layer-3 {
+      transform: translateZ(180px);
+      pointer-events: auto;
+      display: block;
+      inset: 0;
+    }
+
+    .layer-4 {
+      transform: translateZ(190px) scale(0.9);
+      mask-image: linear-gradient(#fff, transparent);
+      pointer-events: none;
+    }
+
+    .slide-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: flex;
+      width: 200vw;
+      height: 100vh;
+      transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1);
+      transform: translateX(0);
+    }
+
+    .slide-container.show-rank {
+      transform: translateX(-100vw);
+    }
+
+    .hero-panel,
+    .rank-panel {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hero-content {
+      font-size: calc(var(--index) * 2.4);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-top: calc(var(--index) * 4);
+      text-shadow: 0 0 30px #00000080;
+      max-width: 90%;
+    }
+
+    .hero-content span {
+      display: block;
+      font-size: calc(var(--index) * 1.1);
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      margin-top: 0.7rem;
+      color: #b9e6ff;
+    }
+
+    .hero-content__p {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0.04em;
+      font-size: calc(var(--index) * 0.8);
+      margin-top: 1.5rem;
+      opacity: 0.95;
+    }
+
+    .button-start, .btn-back, .btn-save {
+      display: inline-block;
+      font-family: 'Kamerik 3D', sans-serif;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: calc(var(--index) * 0.8);
+      letter-spacing: 0.18em;
+      padding: calc(var(--index) * 0.7) calc(var(--index) * 2.5);
+      background: rgba(6, 14, 26, 0.65);
+      color: white;
+      border-radius: 60px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(8px);
+      transition: 0.25s;
+      margin-top: calc(var(--index) * 2);
+      text-decoration: none;
+      box-shadow: 0 0 20px #0066ff33;
+      cursor: pointer;
+    }
+
+    .button-start:hover, .btn-back:hover, .btn-save:hover {
+      border-color: #fff;
+      background: #1e3a8a80;
+      box-shadow: 0 0 35px #3b82f6;
+      transform: scale(1.06);
+    }
+
+    .btn-back i, .btn-save i {
+      margin-right: 0.6rem;
+    }
+
+    .rank-panel {
+      overflow-y: auto;
+      padding: 3rem 1rem 2rem;
+      align-items: flex-start;
+    }
+
+    .rank-container {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2.2rem;
+      margin-top: 1rem;
+      text-align: center;
+      color: white;
+      font-weight: 900;
+      text-shadow: 0 0 18px #2563eb;
+    }
+
+    .tier-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .tier-row:last-of-type {
+      margin-bottom: 2rem;
+    }
+
+    .tier-badge {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.4rem;
+      font-weight: 900;
+      font-family: 'Quicksand', sans-serif;
+      background: var(--tier-color);
+      border-radius: 20px;
+      box-shadow: 0 12px 28px #00000070, inset 0 1px 6px #ffffffb0;
+      text-shadow: 3px 3px 0 #000;
+      flex-shrink: 0;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .tier-info {
+      font-size: 1rem;
+      margin-top: -0.3rem;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 1px 1px 0 #000;
+      transition: 0.2s;
+    }
+
+    .tier-info:hover {
+      color: #a5f3fc;
+      transform: scale(1.2);
+    }
+
+    .tier-tooltip {
+      position: absolute;
+      background: #0f1825;
+      border: 2px solid #3b82f6;
+      border-radius: 12px;
+      padding: 0.6rem 1.2rem;
+      color: white;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 9999;
+      pointer-events: none;
+      max-width: 300px;
+      white-space: normal;
+      word-wrap: break-word;
+      backdrop-filter: blur(4px);
+    }
+
+    .tier-tooltip::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 20px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid #3b82f6;
+    }
+
+    .tier-slot {
+      flex: 1;
+      min-height: 110px;
+      background: rgba(13, 19, 28, 0.75);
+      backdrop-filter: blur(4px);
+      border: 2px dashed rgba(255, 255, 255, 0.25);
+      border-radius: 28px;
+      padding: 0.8rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      transition: border 0.2s, background 0.2s;
+    }
+
+    .tier-slot.drag-over {
+      border-color: #60a5fa;
+      background: rgba(37, 99, 235, 0.2);
+      border-style: solid;
+      box-shadow: 0 0 0 2px #3b82f6 inset;
+    }
+
+    .game-card {
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(145deg, #20242e, #161a22);
+      border-radius: 20px;
+      border: 2px solid #3a4050;
+      padding: 0.6rem;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #f1f5f9;
+      box-shadow: 0 6px 10px #0000004d;
+      transition: 0.1s, border-color 0.2s, box-shadow 0.2s;
+      cursor: grab;
+      user-select: none;
+      backdrop-filter: blur(6px);
+      width: 220px;
+      flex-shrink: 0;
+    }
+
+    .game-card:active {
+      cursor: grabbing;
+      box-shadow: 0 12px 18px black, 0 0 0 2px #3b82f6;
+      transform: scale(0.97);
+    }
+
+    .card-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .game-card img, .music-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #94a3b8;
+      background: #0f172a;
+      box-shadow: 0 4px 6px black;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 1.2rem;
+    }
+
+    .track-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .track-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .track-artist {
+      font-size: 0.7rem;
+      opacity: 0.8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 0.2rem;
+    }
+
+    .audio-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #0f172a;
+      border: 1px solid #475569;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .audio-btn:hover {
+      background: #3b82f6;
+      color: white;
+      border-color: white;
+      transform: scale(1.1);
+    }
+
+    .audio-btn.mute-active {
+      background: #ef4444;
+      color: white;
+      border-color: white;
+    }
+
+    .seek-bar {
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 10px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .seek-bar::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: #3b82f6;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px black;
+    }
+
+    .seek-bar::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      background: #3b82f6;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px black;
+    }
+
+    .game-card.top-1 {
+      border-color: #ffd700;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 6px 10px #0000004d;
+    }
+
+    .game-card.top-2 {
+      border-color: #c0c0c0;
+      box-shadow: 0 0 15px rgba(192, 192, 192, 0.7), 0 6px 10px #0000004d;
+    }
+
+    .game-card.top-3 {
+      border-color: #cd7f32;
+      box-shadow: 0 0 15px rgba(205, 127, 50, 0.7), 0 6px 10px #0000004d;
+    }
+
+    .rank-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-reset, .btn-back, .btn-save {
+      background: #0f1825;
+      border: 2px solid #3b82f6;
+      color: white;
+      font-family: 'Kamerik 3D', sans-serif;
+      font-size: 1rem;
+      padding: 0.5rem 1.8rem;
+      border-radius: 50px;
+      letter-spacing: 0.18em;
+      backdrop-filter: blur(6px);
+      cursor: pointer;
+      transition: 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0;
+    }
+
+    .btn-reset:hover, .btn-back:hover, .btn-save:hover {
+      background: #1e3a8a;
+      border-color: #a5f3fc;
+      box-shadow: 0 0 30px #38bdf8;
+    }
+
+    .btn-save {
+      border-color: #22c55e;
+    }
+    .btn-save:hover {
+      background: #16a34a;
+      border-color: #86efac;
+      box-shadow: 0 0 30px #22c55e;
+    }
+
+    canvas.rain {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    footer {
+      background: #0a0e15;
+      font-family: 'Quicksand', sans-serif;
+      padding: 2rem 0 0.8rem;
+      border-top: 1px solid #1f2a3a;
+      position: relative;
+      z-index: 10;
+    }
+
+    .footerContainer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .socialIcons {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .socialIcons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: #1e293b;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.6rem;
+      transition: 0.25s;
+      border: 1px solid #3b82f6;
+      text-decoration: none;
+    }
+
+    .socialIcons a:hover {
+      background: #2563eb;
+      transform: translateY(-6px);
+      border-color: #fff;
+    }
+
+    .footerNav ul {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      list-style: none;
+      margin: 1.4rem 0;
+    }
+
+    .footerNav ul li a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .footerNav ul li a:hover {
+      color: white;
+      border-bottom-color: #60a5fa;
+    }
+
+    .footerBottom {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding: 1rem 0;
+      border-top: 1px solid #1e2a3a;
+      color: #9aa8b9;
+      font-size: 0.9rem;
+    }
+
+    .designer {
+      color: #a3d8ff;
+      font-weight: 700;
+    }
+
+    @media (max-width: 700px) {
+      .tier-row {
+        flex-direction: column;
+      }
+      .tier-badge {
+        width: 100%;
+        height: 60px;
+        font-size: 2rem;
+        flex-direction: row;
+        gap: 0.6rem;
+      }
+      .tier-info {
+        margin-top: 0;
+      }
+      .game-card {
+        width: 100%;
+      }
+      .hero-content {
+        font-size: calc(var(--index) * 1.8);
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <section class="layers">
+    <div id="home" class="layers__container">
+      <div class="layers__item layer-1" style="background-image: url(img/layer-1.jpg);"></div>
+      <div class="layers__item layer-2" style="background-image: url(img/layer-2.png);"></div>
+      <div class="layers__item layer-5" style="background-image: url(img/layer-5.png);"></div>
+      <div class="layers__item layer-6" style="background-image: url(img/layer-6.png);"></div>
+      
+      <div class="layers__item layer-3">
+        <div class="slide-container">
+          <div class="hero-panel">
+            <div class="hero-content">
+              <h1>Choose The Best <span>song produced by Kopynus</span></h1>
+              <div class="hero-content__p">Rank all legendary tracks from prod Kopynus</div>
+              <button class="button-start" id="goToRankBtn">▶ GO TO RANKS ◀</button>
+            </div>
+          </div>
+          <div class="rank-panel">
+            <div class="rank-container">
+              <h2 class="section-title">😁 TIER LIST 😃</h2>
+              
+              <div class="tier-row">
+                <div class="tier-badge" style="background-color: var(--tier-s);" data-tier="S">
+                  S <i class="fa-regular fa-circle-question tier-info"></i>
+                </div>
+                <div id="tierS" class="tier-slot"></div>
+              </div>
+
+              <div class="tier-row">
+                <div class="tier-badge" style="background-color: var(--tier-a);" data-tier="A">
+                  A <i class="fa-regular fa-circle-question tier-info"></i>
+                </div>
+                <div id="tierA" class="tier-slot"></div>
+              </div>
+
+              <div class="tier-row">
+                <div class="tier-badge" style="background-color: var(--tier-b); color: #0a0a0a;" data-tier="B">
+                  B <i class="fa-regular fa-circle-question tier-info"></i>
+                </div>
+                <div id="tierB" class="tier-slot"></div>
+              </div>
+
+              <div class="tier-row">
+                <div class="tier-badge" style="background-color: var(--tier-c);" data-tier="C">
+                  C <i class="fa-regular fa-circle-question tier-info"></i>
+                </div>
+                <div id="tierC" class="tier-slot"></div>
+              </div>
+
+              <div class="tier-row">
+                <div class="tier-badge" style="background-color: var(--tier-d);" data-tier="D">
+                  D <i class="fa-regular fa-circle-question tier-info"></i>
+                </div>
+                <div id="tierD" class="tier-slot"></div>
+              </div>
+
+              <div class="tier-row">
+                <div class="tier-badge" style="background-color: var(--tier-dk);" data-tier="DK">
+                  DK <i class="fa-regular fa-circle-question tier-info"></i>
+                </div>
+                <div id="tierDK" class="tier-slot"></div>
+              </div>
+
+              <div class="rank-controls">
+                <button id="resetBtn" class="btn-reset"><i class="fa-solid fa-arrow-rotate-left"></i> RESET</button>
+                <button id="savePdfBtn" class="btn-save"><i class="fa-solid fa-file-pdf"></i> SAVE TEXT PDF</button>
+                <button id="saveImageBtn" class="btn-save"><i class="fa-solid fa-camera"></i> SAVE IMAGE</button>
+                <button id="backToHeroBtn" class="btn-back"><i class="fa-solid fa-arrow-left"></i> BACK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layers__item layer-4">
+        <canvas id="rainCanvas" class="rain"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footerContainer">
+      <div class="socialIcons">
+        <a href="https://github.com/MaksShahov" target="_blank"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.instagram.com/maksym_shakhov/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://twitter.com/kopynus" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://drive.google.com/drive/u/2/folders/18N-7LC7vDzrw_D6jK6LmswXhoJOLyBXt" target="_blank"><i class="fa-brands fa-google"></i></a>
+        <a href="https://www.youtube.com/channel/UCYKD0BJ2s6fRj3Szr8yojqA" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+      <div class="footerNav">
+        <ul>
+          <li><a href="#" id="footerHome">HOME</a></li>
+          <li><a href="#" id="footerRank">RANKING</a></li>
+        </ul>
+      </div>
+      <div class="footerBottom">
+        <p>Copyright &copy;2026; Designed by <span class="designer">Kopynus</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('rainCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+        let drops = [];
+        for (let i = 0; i < 140; i++) {
+          drops.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            len: Math.random() * 14 + 8,
+            speed: Math.random() * 5 + 4,
+          });
+        }
+        function drawRain() {
+          ctx.clearRect(0, 0, w, h);
+          ctx.fillStyle = 'rgba(160, 210, 255, 0.5)';
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = '#3b82f6';
+          for (let d of drops) {
+            ctx.fillRect(d.x, d.y, 1.6, d.len);
+            d.y += d.speed;
+            if (d.y > h) {
+              d.y = -20;
+              d.x = Math.random() * w;
+            }
+          }
+          requestAnimationFrame(drawRain);
+        }
+        drawRain();
+        window.addEventListener('resize', () => {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+        });
+      }
+
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX - window.innerWidth / 2) * -0.005;
+        const y = (e.clientY - window.innerHeight / 2) * 0.01;
+        document.documentElement.style.setProperty('--move-x', x + 'deg');
+        document.documentElement.style.setProperty('--move-y', y + 'deg');
+      });
+
+      const trackList = [
+        { name: "17 (2023 Daniil Dr)", artist: "Kopynus & s€x(br0nx)", img: "/img/17.png", audio: "audio/17.mp3" },
+        { name: "2021 Daniil Dr", artist: "Kopynus", img: "", audio: "audio/2021.mp3" },
+        { name: "2022 Daniil Dr", artist: "Kopynus", img: "/img/2022dr.png", audio: "audio/2022dr.mp3" },
+        { name: "Babytron", artist: "Kopynus", img: "/img/nonsensedeluxe.jpeg", audio: "audio/babytron.wav" },
+        { name: "Beszbashen1u", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/besz.mp3" },
+        { name: "Cel Harosh", artist: "Kopynus", img: "", audio: "audio/celharosh.mp3" },
+        { name: "Check", artist: "Kopynus", img: "/img/check.png", audio: "audio/check.wav" },
+        { name: "Cost", artist: "Kopynus", img: "", audio: "audio/cost.wav" },
+        { name: "CTOOOEEEEEE", artist: "KatyaMak & Natalka", img: "", audio: "audio/cto.mp3" },
+        { name: "Desicion", artist: "s€x(br0nx)", img: "/img/desicion.png", audio: "audio/desicion.wav" },
+        { name: "Fog", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsensedeluxe.jpeg", audio: "audio/fog.wav" },
+        { name: "Glide", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsensedeluxe.jpeg", audio: "audio/glide.wav" },
+        { name: "I Got It", artist: "s€x(br0nx)", img: "/img/nonsensedeluxe.jpeg", audio: "audio/igotit.wav" },
+        { name: "Izi Rap", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/izirep.mp3" },
+        { name: "Kruk", artist: "Beszbashen1u(Kopynus)", img: "/img/kruk.jpeg", audio: "audio/kruk.mp3" },
+        { name: "My Way", artist: "s€x(br0nx)", img: "/img/myway.png", audio: "audio/myway.wav" },
+        { name: "Lean", artist: "Kopynus", img: "", audio: "audio/lean.wav" },
+        { name: "Never Get Enough", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/nevergetenough.wav" },
+        { name: "Never Lost", artist: "s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/neverlost.wav" },
+        { name: "Nonsense", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/nonsense.wav" },
+        { name: "No Sleep", artist: "Kopynus", img: "", audio: "audio/nosleep.wav" },
+        { name: "Nothing To Risk", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsensedeluxe.jpeg", audio: "audio/nothingtorisk.wav" },
+        { name: "Perfect Scene", artist: "Kopynus", img: "/img/nonsense.jpeg", audio: "audio/perfectscene.wav" },
+        { name: "Raritet V1", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/raritet1.mp3" },
+        { name: "Raritet V2", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/raritet2.wav" },
+        { name: "Raritet V3", artist: "Beszbashen1u(Kopynus)", img: "/img/raritet.png", audio: "audio/raritet3.wav" },
+        { name: "R.I.P Federiko (Astrofest Tragedy)", artist: "Kopynus", img: "/img/federiko.png", audio: "audio/federiko.mp3" },
+        { name: "She Like Me", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/shelikeme.wav" },
+        { name: "The End", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/theend.wav" },
+        { name: "Trap (New Year 2022)", artist: "Kopynus", img: "", audio: "audio/trap.mp3" },
+        { name: "Trust", artist: "Kopynus & s€x(br0nx)", img: "/img/nonsense.jpeg", audio: "audio/trust.wav" },
+      ];
+
+      let currentlyPlaying = null;
+
+      function createTrackCard(track, index) {
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.draggable = true;
+        card.dataset.track = track.name;
+
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'card-row';
+
+        if (track.img && track.img.trim() !== '') {
+          const img = document.createElement('img');
+          img.src = track.img;
+          img.alt = track.name;
+          img.draggable = false;
+          rowDiv.appendChild(img);
+        } else {
+          const iconDiv = document.createElement('div');
+          iconDiv.className = 'music-icon';
+          iconDiv.innerHTML = '<i class="fa-solid fa-music"></i>';
+          iconDiv.draggable = false;
+          rowDiv.appendChild(iconDiv);
+        }
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'track-info';
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'track-name';
+        nameSpan.textContent = track.name;
+        const artistSpan = document.createElement('span');
+        artistSpan.className = 'track-artist';
+        artistSpan.textContent = track.artist;
+        infoDiv.appendChild(nameSpan);
+        infoDiv.appendChild(artistSpan);
+        rowDiv.appendChild(infoDiv);
+
+        const controlsDiv = document.createElement('div');
+        controlsDiv.className = 'card-controls';
+
+        const audioControls = document.createElement('div');
+        audioControls.className = 'audio-controls';
+
+        const playBtn = document.createElement('span');
+        playBtn.className = 'audio-btn play-btn';
+        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        playBtn.draggable = false;
+        playBtn.addEventListener('dragstart', e => e.preventDefault());
+
+        const skipBackBtn = document.createElement('span');
+        skipBackBtn.className = 'audio-btn';
+        skipBackBtn.innerHTML = '<i class="fa-solid fa-backward-step"></i>';
+        skipBackBtn.draggable = false;
+        skipBackBtn.addEventListener('dragstart', e => e.preventDefault());
+
+        const skipFwdBtn = document.createElement('span');
+        skipFwdBtn.className = 'audio-btn';
+        skipFwdBtn.innerHTML = '<i class="fa-solid fa-forward-step"></i>';
+        skipFwdBtn.draggable = false;
+        skipFwdBtn.addEventListener('dragstart', e => e.preventDefault());
+
+        const muteBtn = document.createElement('span');
+        muteBtn.className = 'audio-btn';
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        muteBtn.draggable = false;
+        muteBtn.addEventListener('dragstart', e => e.preventDefault());
+
+        audioControls.appendChild(playBtn);
+        audioControls.appendChild(skipBackBtn);
+        audioControls.appendChild(skipFwdBtn);
+        audioControls.appendChild(muteBtn);
+
+        const seekBar = document.createElement('input');
+        seekBar.type = 'range';
+        seekBar.className = 'seek-bar';
+        seekBar.value = 0;
+        seekBar.step = 0.1;
+        seekBar.draggable = false;
+        seekBar.addEventListener('dragstart', e => e.preventDefault());
+
+        controlsDiv.appendChild(audioControls);
+        controlsDiv.appendChild(seekBar);
+
+        const audio = document.createElement('audio');
+        audio.src = track.audio;
+        audio.preload = 'metadata';
+        audio.style.display = 'none';
+
+        card.appendChild(rowDiv);
+        card.appendChild(controlsDiv);
+        card.appendChild(audio);
+
+        playBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+
+          if (currentlyPlaying && currentlyPlaying.card !== card) {
+            currentlyPlaying.audio.pause();
+            currentlyPlaying.playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            currentlyPlaying = null;
+          }
+
+          if (audio.paused) {
+            audio.play().then(() => {
+              playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+              currentlyPlaying = { card, audio, playBtn, seekBar };
+            }).catch(err => console.log('Playback failed:', err));
+          } else {
+            audio.pause();
+            playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            if (currentlyPlaying && currentlyPlaying.card === card) {
+              currentlyPlaying = null;
+            }
+          }
+        });
+
+        skipBackBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          audio.currentTime = Math.max(0, audio.currentTime - 10);
+        });
+
+        skipFwdBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+        });
+
+        muteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          audio.muted = !audio.muted;
+          muteBtn.classList.toggle('mute-active', audio.muted);
+          muteBtn.innerHTML = audio.muted ? '<i class="fa-solid fa-volume-off"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+        });
+
+        audio.addEventListener('timeupdate', () => {
+          if (audio.duration) {
+            seekBar.value = (audio.currentTime / audio.duration) * 100;
+          }
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+          seekBar.max = 100;
+        });
+
+        seekBar.addEventListener('input', (e) => {
+          e.stopPropagation();
+          if (audio.duration) {
+            audio.currentTime = (seekBar.value / 100) * audio.duration;
+          }
+        });
+
+        audio.addEventListener('ended', () => {
+          playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+          seekBar.value = 0;
+          if (currentlyPlaying && currentlyPlaying.card === card) {
+            currentlyPlaying = null;
+          }
+        });
+
+        return card;
+      }
+
+      const tierS = document.getElementById('tierS');
+      const tierA = document.getElementById('tierA');
+      const tierB = document.getElementById('tierB');
+      const tierC = document.getElementById('tierC');
+      const tierD = document.getElementById('tierD');
+      const tierDK = document.getElementById('tierDK');
+      const allTiers = [tierS, tierA, tierB, tierC, tierD, tierDK];
+      const tierLetters = ['S', 'A', 'B', 'C', 'D', 'DK'];
+
+      function updateTop3() {
+        const rankContainer = document.querySelector('.rank-container');
+        const allCards = Array.from(rankContainer.querySelectorAll('.game-card'));
+        allCards.forEach(card => {
+          card.classList.remove('top-1', 'top-2', 'top-3');
+        });
+        allCards.slice(0, 3).forEach((card, idx) => {
+          if (idx === 0) card.classList.add('top-1');
+          else if (idx === 1) card.classList.add('top-2');
+          else if (idx === 2) card.classList.add('top-3');
+        });
+      }
+
+      function resetToInitial() {
+        if (currentlyPlaying) {
+          currentlyPlaying.audio.pause();
+          currentlyPlaying.playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+          currentlyPlaying = null;
+        }
+        allTiers.forEach(tier => { if (tier) tier.innerHTML = ''; });
+        trackList.forEach((track, idx) => {
+          tierS.appendChild(createTrackCard(track, idx));
+        });
+        updateTop3();
+      }
+      resetToInitial();
+
+      const savePdfBtn = document.getElementById('savePdfBtn');
+      if (savePdfBtn) {
+        savePdfBtn.addEventListener('click', () => {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+
+          doc.setFontSize(20);
+          doc.text('Music Tier List', 20, 20);
+          doc.setFontSize(12);
+          doc.text(`Generated: ${new Date().toLocaleString()}`, 20, 30);
+
+          let yPos = 40;
+          const lineHeight = 7;
+          const pageHeight = doc.internal.pageSize.height;
+
+          allTiers.forEach((tierSlot, idx) => {
+            if (!tierSlot) return;
+            const tierLetter = tierLetters[idx];
+            const cards = tierSlot.querySelectorAll('.game-card');
+            if (cards.length === 0) return;
+
+            if (yPos > pageHeight - 20) {
+              doc.addPage();
+              yPos = 20;
+            }
+
+            doc.setFontSize(14);
+            doc.setTextColor(...getTierColor(tierLetter));
+            doc.text(`Tier ${tierLetter}`, 20, yPos);
+            doc.setTextColor(0, 0, 0);
+            yPos += lineHeight;
+
+            cards.forEach(card => {
+              const nameEl = card.querySelector('.track-name');
+              const artistEl = card.querySelector('.track-artist');
+              const trackName = nameEl ? nameEl.textContent : 'Unknown';
+              const artist = artistEl ? artistEl.textContent : '';
+
+              doc.setFontSize(10);
+              doc.text(`• ${trackName} (${artist})`, 25, yPos);
+              yPos += lineHeight;
+
+              if (yPos > pageHeight - 20) {
+                doc.addPage();
+                yPos = 20;
+              }
+            });
+
+            yPos += lineHeight;
+          });
+
+          doc.save(`music_tier_list_${new Date().toISOString().slice(0,10)}.pdf`);
+        });
+      }
+
+      function getTierColor(tier) {
+        switch(tier) {
+          case 'S': return [30, 79, 208];
+          case 'A': return [185, 28, 28];
+          case 'B': return [234, 179, 8];
+          case 'C': return [234, 88, 12];
+          case 'D': return [22, 163, 74];
+          case 'DK': return [107, 114, 128];
+          default: return [255, 255, 255];
+        }
+      }
+
+      // ========== УЛУЧШЕННОЕ СОХРАНЕНИЕ ИЗОБРАЖЕНИЯ ==========
+      const saveImageBtn = document.getElementById('saveImageBtn');
+      if (saveImageBtn) {
+        saveImageBtn.addEventListener('click', () => {
+          const original = document.querySelector('.rank-container');
+          if (!original) return;
+
+          // Клонируем содержимое
+          const clone = original.cloneNode(true);
+          
+          // Убираем всё, что может давать артефакты (blur, mask, сложные тени)
+          clone.style.backdropFilter = 'none';
+          clone.style.mask = 'none';
+          clone.style.webkitMask = 'none';
+          clone.style.transform = 'none';
+          // Простой тёмный градиент для фона
+          clone.style.background = 'linear-gradient(145deg, #0f172a, #1e293b)';
+          clone.style.padding = '2rem';
+          clone.style.borderRadius = '32px';
+
+          // Упрощаем tier-badge: убираем тени, делаем плоскими
+          clone.querySelectorAll('.tier-badge').forEach(badge => {
+            badge.style.boxShadow = 'none';
+            badge.style.textShadow = 'none';
+            badge.style.background = badge.style.backgroundColor; // оставляем цвет
+            badge.style.border = '2px solid rgba(255,255,255,0.3)';
+          });
+
+          // Упрощаем tier-slot: убираем backdrop-filter, ставим простой полупрозрачный фон
+          clone.querySelectorAll('.tier-slot').forEach(slot => {
+            slot.style.backdropFilter = 'none';
+            slot.style.background = 'rgba(0, 0, 0, 0.4)';
+            slot.style.border = '2px dashed rgba(255,255,255,0.2)';
+          });
+
+          // Упрощаем game-card: убираем backdrop-filter, сложные градиенты и тени
+          clone.querySelectorAll('.game-card').forEach(card => {
+            card.style.backdropFilter = 'none';
+            card.style.background = '#1e293b';
+            card.style.boxShadow = '0 4px 8px rgba(0,0,0,0.5)';
+            card.style.border = '2px solid #334155';
+          });
+
+          // Контейнер для оффлайн-рендера
+          const container = document.createElement('div');
+          container.style.position = 'absolute';
+          container.style.left = '-9999px';
+          container.style.top = '0';
+          container.style.width = original.offsetWidth + 'px';
+          container.style.background = 'transparent';
+          container.appendChild(clone);
+          document.body.appendChild(container);
+
+          html2canvas(clone, {
+            scale: 2,
+            backgroundColor: '#0f172a', // запасной фон
+            allowTaint: true,
+            useCORS: true,
+            logging: false,
+          }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `tierlist_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.body.removeChild(container);
+          }).catch(error => {
+            console.error('html2canvas error:', error);
+            alert('Не удалось сохранить изображение. Подробности в консоли.');
+            document.body.removeChild(container);
+          });
+        });
+      }
+
+      let draggedCard = null;
+
+      function handleDragStart(e) {
+        draggedCard = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', this.dataset.track || 'track');
+        this.style.opacity = '0.6';
+      }
+
+      function handleDragEnd(e) {
+        this.style.opacity = '1';
+        allTiers.forEach(t => t.classList.remove('drag-over'));
+        draggedCard = null;
+        updateTop3();
+      }
+
+      function handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        this.classList.add('drag-over');
+      }
+
+      function handleDragLeave(e) {
+        this.classList.remove('drag-over');
+      }
+
+      function handleDrop(e) {
+        e.preventDefault();
+        this.classList.remove('drag-over');
+        if (!draggedCard) return;
+
+        const targetTier = this;
+        const dropTarget = e.target.closest('.game-card');
+
+        if (dropTarget && dropTarget !== draggedCard && targetTier.contains(dropTarget)) {
+          targetTier.insertBefore(draggedCard, dropTarget);
+        } else {
+          targetTier.appendChild(draggedCard);
+        }
+      }
+
+      function attachDragListeners(card) {
+        card.addEventListener('dragstart', handleDragStart);
+        card.addEventListener('dragend', handleDragEnd);
+      }
+
+      function observeAllCards() {
+        document.querySelectorAll('.game-card').forEach(card => {
+          if (!card.dragAttached) {
+            attachDragListeners(card);
+            card.dragAttached = true;
+          }
+        });
+      }
+      observeAllCards();
+
+      const cardObserver = new MutationObserver(() => {
+        observeAllCards();
+        updateTop3();
+      });
+      allTiers.forEach(tier => {
+        if (tier) cardObserver.observe(tier, { childList: true, subtree: false });
+      });
+
+      allTiers.forEach(tier => {
+        if (!tier) return;
+        tier.addEventListener('dragover', handleDragOver);
+        tier.addEventListener('dragleave', handleDragLeave);
+        tier.addEventListener('drop', handleDrop);
+      });
+
+      const slideContainer = document.querySelector('.slide-container');
+      const goBtn = document.getElementById('goToRankBtn');
+      const backBtn = document.getElementById('backToHeroBtn');
+      const footerHome = document.getElementById('footerHome');
+      const footerRank = document.getElementById('footerRank');
+
+      if (goBtn) {
+        goBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          slideContainer.classList.add('show-rank');
+        });
+      }
+
+      if (backBtn) {
+        backBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          slideContainer.classList.remove('show-rank');
+        });
+      }
+
+      if (footerHome) {
+        footerHome.addEventListener('click', (e) => {
+          e.preventDefault();
+          slideContainer.classList.remove('show-rank');
+        });
+      }
+      if (footerRank) {
+        footerRank.addEventListener('click', (e) => {
+          e.preventDefault();
+          slideContainer.classList.add('show-rank');
+        });
+      }
+
+      const resetBtn = document.getElementById('resetBtn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          resetToInitial();
+        });
+      }
+
+      const tierDescriptions = {
+        S: '✨ Top tier – absolute masterpieces',
+        A: '🔥 Great tracks, highly recommended',
+        B: '👍 Solid, enjoyable songs',
+        C: '⚖️ Average – some flaws',
+        D: '⚠️ Below average, niche appeal',
+        DK: '❓ Haven’t listened / unknown'
+      };
+
+      let activeTooltip = null;
+
+      function removeTooltip() {
+        if (activeTooltip) {
+          activeTooltip.remove();
+          activeTooltip = null;
+        }
+      }
+
+      function showTooltip(text, element) {
+        removeTooltip();
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tier-tooltip';
+        tooltip.textContent = text;
+        document.body.appendChild(tooltip);
+        activeTooltip = tooltip;
+
+        const rect = element.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+        let top = rect.bottom + 10;
+        if (left < 10) left = 10;
+        if (left + tooltipRect.width > window.innerWidth - 10) {
+          left = window.innerWidth - tooltipRect.width - 10;
+        }
+        if (top + tooltipRect.height > window.innerHeight - 10) {
+          top = rect.top - tooltipRect.height - 10;
+        }
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+      }
+
+      const tierBadges = document.querySelectorAll('.tier-badge');
+      tierBadges.forEach(badge => {
+        badge.addEventListener('click', function(e) {
+          const infoIcon = e.target.closest('.tier-info');
+          if (!infoIcon) return;
+          const tier = this.dataset.tier;
+          const desc = tierDescriptions[tier];
+          if (!desc) return;
+          if (activeTooltip && activeTooltip.textContent === desc) {
+            removeTooltip();
+          } else {
+            showTooltip(desc, infoIcon);
+          }
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.tier-info')) {
+          removeTooltip();
+        }
+      });
+
+      window.addEventListener('scroll', removeTooltip);
+      window.addEventListener('resize', removeTooltip);
+    })();
+  </script>
+</body>
+</html>
