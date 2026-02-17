@@ -1,5 +1,4 @@
-
-    (function() {
+(function() {
       const canvas = document.getElementById('rainCanvas');
       if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -595,4 +594,4 @@
 
       window.addEventListener('scroll', removeTooltip);
       window.addEventListener('resize', removeTooltip);
-    })();
+})();
