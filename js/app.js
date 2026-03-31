@@ -1,4 +1,5 @@
-(function() {
+
+    (function() {
       const canvas = document.getElementById('rainCanvas');
       if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -55,12 +56,15 @@
         { name: "CTOOOEEEEEE", artist: "KatyaMak & Natalka", img: "", audio: "audio/cto.mp3" },
         { name: "Desicion", artist: "s€x(br0nx)", img: "img/desicion.png", audio: "audio/desicion.wav" },
         { name: "Fog", artist: "Kopynus & s€x(br0nx)", img: "img/nonsensedeluxe.jpeg", audio: "audio/fog.wav" },
+        { name: "Fuck Ice", artist: "Kopynus", img: "", audio: "audio/FUCKICE.wav" },
         { name: "Glide", artist: "Kopynus & s€x(br0nx)", img: "img/nonsensedeluxe.jpeg", audio: "audio/glide.wav" },
         { name: "I Got It", artist: "s€x(br0nx)", img: "img/nonsensedeluxe.jpeg", audio: "audio/igotit.wav" },
         { name: "Izi Rap", artist: "Beszbashen1u(Kopynus)", img: "img/raritet.png", audio: "audio/izirep.mp3" },
         { name: "Kruk", artist: "Beszbashen1u(Kopynus)", img: "img/kruk.jpeg", audio: "audio/kruk.mp3" },
         { name: "My Way", artist: "s€x(br0nx)", img: "img/myway.png", audio: "audio/myway.wav" },
         { name: "Lean", artist: "Kopynus", img: "", audio: "audio/lean.wav" },
+        { name: "MDMA/EXxtasy", artist: "Kopynus", img: "", audio: "audio/mdma.wav" },
+        { name: "MDMA/EXxtasy", artist: "Kopynus % s€x(br0nx)", img: "", audio: "audio/mdma2.wav" },
         { name: "Never Get Enough", artist: "Kopynus & s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/nevergetenough.wav" },
         { name: "Never Lost", artist: "s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/neverlost.wav" },
         { name: "Nonsense", artist: "Kopynus & s€x(br0nx)", img: "img/nonsense.jpeg", audio: "audio/nonsense.wav" },
@@ -594,4 +598,4 @@
 
       window.addEventListener('scroll', removeTooltip);
       window.addEventListener('resize', removeTooltip);
-})();
+    })();
